@@ -1,0 +1,21 @@
+<files_to_update>
+@ references to the files we want Cursor to update
+</files_to_update>
+
+<references>
+@ references to files and resources we want Cursor to reference for this task
+</references>
+
+<task>
+Detailed description of the task.
+</task>
+
+<task_modifier>
+Thoroughly analyze the task, methodically outlining your thought process and breaking down the implementation into detailed steps, referencing all necessary files, iteratively refining and reevaluating your approach until you're confident in its completeness and accuracy, and then proceed with the task's implementation.
+
+Use software engineering best practices, type annotations or type hints (where supported), clear comments and function definitions, proper logging, error handling with try/catch or try/except blocks, object-oriented programming principles, code modularization, DRY (Don't Repeat Yourself) coding practices.
+</task_modifier>
+
+<IMPORTANT>
+Do not break, create, or remove any code not immediately relevant to the task.
+</IMPORTANT>
