@@ -1,19 +1,105 @@
 <files_to_update>
-@ references to the files we want Cursor to update
+
 </files_to_update>
 
 <references>
-@ references to files and resources we want Cursor to reference for this task
+
 </references>
 
+<errors>
+
+</error>
+
 <task>
-Detailed description of the task.
+Evaluate and fix the error please.
 </task>
 
 <task_modifier>
-Thoroughly analyze the task, methodically outlining your thought process and breaking down the implementation into detailed steps, referencing all necessary files, iteratively refining and reevaluating your approach until you're confident in its completeness and accuracy, and then proceed with the task's implementation.
+<engineering principles>
+Here are the enhanced engineering principles, formatted with XML tags:
+<principle>Write clean, self-documenting code with meaningful variable and function names that clearly express their purpose and behavior</principle>
+<principle>Implement comprehensive type hints and annotations to ensure type safety and improve code maintainability</principle>
+<principle>Include clear, concise documentation that explains the "why" rather than the "what" of the code</principle>
+<principle>Follow object-oriented SOLID principles: Single Responsibility, Open-Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion</principle>
+<principle>Practice defensive programming with proper error handling, input validation, and edge case management</principle>
+<principle>Implement comprehensive logging with appropriate log levels for debugging, monitoring, and production environments</principle>
+<principle>Follow the DRY (Don't Repeat Yourself) principle by abstracting common functionality into reusable components</principle>
+<principle>Write modular code with high cohesion and loose coupling between components</principle>
+<principle>Include comprehensive unit tests with good coverage of edge cases and error conditions</principle>
+<principle>Implement proper dependency management and version control practices</principle>
+<principle>Follow the KISS (Keep It Simple, Stupid) principle - avoid unnecessary complexity</principle>
+<principle>Use design patterns appropriately to solve common architectural challenges</principle>
+<principle>Implement proper security practices including input sanitization, authentication, and authorization</principle>
+<principle>Write code that is performant and scalable, considering both time and space complexity</principle>
+<principle>Include proper configuration management separating code from configuration data</principle>
+<principle>Follow consistent code formatting and style guidelines</principle>
+<principle>Implement proper memory management and resource cleanup</principle>
+<principle>Write code that is easily maintainable and extensible for future requirements</principle>
+<principle>Practice continuous integration and continuous deployment (CI/CD) principles</principle>
+<principle>Include comprehensive API documentation and examples</principle>
+<principle>Implement proper versioning for APIs and libraries</principle>
+<principle>Write idiomatic code that follows language-specific best practices and conventions</principle>
+<principle>Include proper monitoring and observability patterns in the code</principle>
+<principle>Follow the principle of least privilege in security implementations</principle>
+<principle>Implement proper concurrent and parallel programming practices where applicable</principle>
+</engineering principles>
 
-Use software engineering best practices, type annotations or type hints (where supported), clear comments and function definitions, proper logging, error handling with try/catch or try/except blocks, object-oriented programming principles, code modularization, DRY (Don't Repeat Yourself) coding practices.
+<look up and downstream>
+Ask yourself, “Is there anywhere else in the code could be impacted by the updates you create?”
+</look up and downstream>
+
+<be proactive>
+Ask yourself, “Which parts of the code is the task is addressing? Are there other parts of the code which could similarly be addressed?”
+</be proactive>
+
+<process>
+<role>
+You are an expert software engineer with extensive experience in clean code practices and system design. Approach this task with the thoroughness of a senior developer conducting a critical implementation.
+</role>
+
+<analysis_framework>
+1. First analyze and break down the requirements
+2. Then outline the technical approach
+3. Re-evaluate the approach and make any necessary improvements
+4. Finally implement the solution with proper error handling and documentation
+</analysis_framework>
+
+<implementation_requirements>
+- Write production-quality code following software engineering best practices
+- Include comprehensive error handling
+- Add clear documentation and type hints
+- Follow object-oriented principles and design patterns where appropriate
+- Ensure code is modular and maintainable
+</implementation_requirements>
+
+<detailed_steps>
+1. Requirements Analysis:
+   - List all functional requirements
+   - Identify edge cases and constraints
+   - Define expected inputs and outputs
+
+2. Technical Design Overview:
+   - System architecture and components
+   - Data structures and algorithms
+   - External dependencies
+   - Performance considerations
+
+3. Implementation Delivery:
+   - Well-documented code with clear comments
+   - Proper error handling
+   - Unit tests for critical functionality
+   - Type annotations where applicable
+
+4. Example Usage:
+   - Demonstrate the implementation with practical examples
+</detailed_steps>
+
+<instructions>
+Please explain your reasoning at each step and highlight any assumptions made or potential limitations.
+</instructions>
+</process>
+
+Analyze the task using the process, engineering principles, look up and downstream, and be proactive.
 </task_modifier>
 
 <IMPORTANT>

@@ -1,13 +1,14 @@
-
-"""
-    LLMs often return the content within a formatted string such as
-    "content": ```json {....}```
-    or 
-    "content": ```html <div>....</div>```
-    and often include new line characters and double backslashes.
-    This script parses and extracts the clean content string.
-"""
 import re
+import logging
+import json
+import traceback
+from typing import Optional
+
+# Configure the basic logger
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# Create a logger
+logger = logging.getLogger(__name__)
 
 def extract_content(text: str) -> Optional[str]:
     """
@@ -15,22 +16,21 @@ def extract_content(text: str) -> Optional[str]:
     """
     try:
         # Log start of markdown extraction process
-        print("=== START MARKDOWN EXTRACTION ===")
-        print(f"Input text length: {len(text)}")
+        logger.info(f"Input text length: {len(text)}")
         
         # First attempt: Look for JSON content inside markdown code blocks
         # The regex pattern matches optional 'json' language identifier and captures content between ``` delimiters
         json_match = re.search(r'```(?:json)?\s*(.*?)\s*```', text, re.DOTALL)
         if json_match:
             content = json_match.group(1).strip()
-            print("Found JSON content in code block")
+            logger.info("Found backticked JSON content in code block")
             return content
         # Second attempt: Look for HTML content inside markdown code blocks
         # The regex pattern matches optional 'html' language identifier and captures content between ``` delimiters
         html_match = re.search(r'```(?:html)?\s*(.*?)\s*```', text, re.DOTALL)
         if html_match:
             content = html_match.group(1).strip()
-            print("Found HTML content in code block")
+            logger.info("Found backticked HTML content in code block")
             return content
             
         # Third attempt: Look for raw JSON objects in the text
@@ -38,24 +38,30 @@ def extract_content(text: str) -> Optional[str]:
         json_match = re.search(r'(\{.*\})', text, re.DOTALL)
         if json_match:
             content = json_match.group(1).strip()
-            print("Found direct JSON content")
+            logger.info("Found direct JSON content")
             return content
             
         # Fallback: If no JSON structure is found, clean and return the original text
         # This handles cases where the content is plain text or has a different format
-        print("No JSON found, returning cleaned text")
+        logger.info("No JSON found, returning cleaned text")
         return clean_text_content(text)
-    except:
-        return "None"
+        
+    except Exception as e:
+        logger.error(f"Error in markdown extraction: {e}")
+        logger.error(traceback.format_exc())
+        return None
 
 def clean_text_content(content: str) -> str:
     """Clean and normalize text content."""
-    content = re.sub(r'//.*?\n', '', content)
-    content = re.sub(r',(\s*[}\]])', r'\1', content)
-    content = ' '.join(content.split())
-    content = ''.join(char for char in content if ord(char) >= 32)
-    return content.strip()
-
+    try:
+        content = re.sub(r'//.*?\n', '', content)
+        content = re.sub(r',(\s*[}\]])', r'\1', content)
+        content = ' '.join(content.split())
+        content = ''.join(char for char in content if ord(char) >= 32)
+        return content.strip()
+    except Exception as e:
+        logger.error(f"Error cleaning text content: {e}")
+        return content
 
 def validate_html_content(content: str) -> bool:
     """Validate HTML content structure."""
@@ -75,41 +81,63 @@ def validate_html_content(content: str) -> bool:
         return is_valid
         
     except Exception as e:
-        print(f"Error validating HTML: {e}")
+        logger.error(f"Error validating HTML: {e}")
         return False
 
-def parse_response(response: str) -> Optional[str]:
-    """Parse and validate response content."""
+def get_clean_content(response: str) -> Optional[str]:
+    """Clean and validate response content."""
     if not response:
         return None
-        
+    
     try:
-        # Try direct JSON parsing first
-        if response.strip().startswith('{'):
-            parsed = json.loads(response)
-            if isinstance(parsed, dict) and 'content' in parsed:
-                return parsed['content']
+        # Handle LangChain response object
+        if hasattr(response, 'content'):
+            response = response.content
         
-        # Extract from markdown if needed
+        # Extract content from markdown if needed
         content = extract_content(response)
         if not content:
-            print("No content")
+            logger.error("No content extracted from response")
             return None
-        else:
-            content = json.loads(content)['content']
-            print('extracted content, json.loads:', content)
+        
+        # Log content length for debugging
+        logger.info(f'Extracted content length: {len(content)}')
+        
+        try:
+            # Replace problematic characters and normalize JSON
+            content = (content.replace("'", '"')
+                                .replace('\n', '')
+                                .replace('\r', '')
+                                .strip())
+            
+            # Parse JSON and extract content
+            parsed_content = json.loads(content)
+            if isinstance(parsed_content, dict) and 'content' in parsed_content:
+                content = parsed_content['content']
+                logger.info('Successfully parsed content')
+            else:
+                logger.error("Parsed content missing required 'content' field")
+                return None
+            
+        except json.JSONDecodeError as e:
+            logger.error(f"JSON parsing error: {e}")
+            # Try direct content extraction if JSON parsing fails
+            match = re.search(r'"content":\s*"(.*?)"(?=\s*[,}])', content)
+            if match:
+                content = match.group(1)
+                logger.info('Extracted content using regex fallback')
+            else:
+                logger.error("Failed to extract content using regex fallback")
+                return None
         
         # Validate HTML structure
         if not validate_html_content(content):
-            print("No validate html content")
+            logger.error("Invalid HTML structure in content")
             return None
-        else:
-            print('Valid html')
-
-        cleaned_content = clean_text_content(content)
-            
-        return content
+        
+        return clean_text_content(content)
         
     except Exception as e:
-        print(f"Response parsing error: {e}")
+        logger.error(f"Response parsing error: {e}")
+        logger.debug(f"Raw response: {str(response)[:500]}...")  # Log truncated response
         return None
