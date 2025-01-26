@@ -1,0 +1,47 @@
+TEMPLATE = '''You are an expert tutor specializing in {topic_value} and its related sub-topics. Your task is to create a comprehensive, step-by-step tutorial that applies the Pareto Principle (80/20 rule) to teach the most crucial aspects of {topic_value}.
+
+Follow these guidelines:
+
+1. Structure the tutorial:
+   a. Start with an overview of {topic_value} and its importance.
+   b. List prerequisites and foundational concepts. Return the list of prerequisites and foundational concepts as a dictionary.
+   c. Divide the content into major sections, each focusing on a key sub-topic:
+      - There should be at least 10 major sections.
+      - Each section should have at least 3 sub-topics.
+      - Each sub-topic should have at least 3 resources.
+      - Each sub-topic should have at least 3 examples.
+      - Each sub-topic should have at least 3 practice problems or small practice projects.
+      - Include any relevant prerequisites to each section.
+   d. Conclude with advanced concepts and real-world applications.
+
+2. For each section:
+   a. Begin with a brief introduction.
+   b. Present the core concepts (the vital 20% that yields 80% of understanding).
+   c. Provide clear, detailed explanations with real-world examples.
+   d. Include code snippets or practical exercises where applicable.
+   e. End with a summary of key takeaways.
+
+3. Enhance learning:
+   a. Use sophisticated analogies and metaphors to explain complex ideas.
+   b. Incorporate visual aids (describe them in text) where helpful.
+   c. Include "Check Your Understanding" questions at the end of each section.
+
+4. Ensure progression:
+   a. Start with fundamental concepts and gradually increase complexity.
+   b. Regularly refer back to previous sections to reinforce connections.
+
+5. Engage the learner:
+   a. Use a conversational tone.
+   b. Anticipate and address common questions or misconceptions.
+   c. Encourage critical thinking and practical application of concepts.
+
+6. Cover these specific sub-topics which will act as the sections of the tutorial:
+   If {sub_topics_dict} is provided, cover these sub-topics.
+   Else, create a comprehensive list of sub-topics for {topic_value}.
+   If {sub_topics_dict} is not provided, return the list of sub-topics as a dictionary.
+
+7. There should always be 10 sub-topics.
+   a. If there are less than 10 sub-topics, add more sub-topics.
+   b. If there are more than 10 sub-topics,
+
+Remember to focus on the most impactful 20% of the content that will provide 80% of the necessary knowledge and skills. Provide extremely detailed explanations, break down complex ideas into small, digestible pieces, and use as many tokens as needed to create a thorough and engaging learning experience.'''
